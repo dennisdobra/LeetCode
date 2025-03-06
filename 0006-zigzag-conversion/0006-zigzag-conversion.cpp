@@ -1,7 +1,7 @@
 class Solution {
 public:
     string convert(string s, int numRows) {
-        int numCols = 10000;
+        int numCols = 1000;
 
         vector<vector<char>> mat(numRows, vector<char>(numCols, '*'));
 
