@@ -1,25 +1,33 @@
 class Solution {
 public:
     bool isPalindrome(string s) {
-        for (int i = 0; i < s.size(); ++i) {
-            if (s[i] >= 'A' and s[i] <= 'Z') {
-                s[i] += 32;
-            } else if (!isalnum(s[i])) {
-                s.erase(i, 1);
-                --i;
-            }
-        }
-
-        int i = 0;
-        cout << s;
-        if (s.empty())
+        if (s.size() == 0) {
             return true;
-
-        while (i <= s.size() / 2 ) {
-            if (s[i] != s[s.size() - 1 - i])
-                return false;
-            i++;
         }
+
+        int left = 0;
+        int right = s.size() - 1;
+
+        while (left < right) {
+            while (!isalnum(s[left]) && left < right) {
+                left++;
+            }
+
+            while (!isalnum(s[right]) && left < right) {
+                right--;
+            }
+
+            s[left] = tolower(s[left]);
+            s[right] = tolower(s[right]);
+
+            if (s[left] != s[right]) {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+
         return true;
     }
 };
