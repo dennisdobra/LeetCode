@@ -43,12 +43,6 @@ public:
             }
         }
 
-        /* print the ap vector */
-        for (int i = 0; i < ap.size(); i++) {
-            cout << ap[i] << " ";
-        }
-        cout << endl;
-
         for (int i = 0; i < 26; i++) {
             if (ap[i] != 0) {
                 if (ap[i + 26] == 0) {
