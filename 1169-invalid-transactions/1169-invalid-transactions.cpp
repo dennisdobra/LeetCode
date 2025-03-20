@@ -9,8 +9,14 @@ public:
             string curr_transaction = transactions[i];
             vector<string> curr = getData(curr_transaction);
 
+            
+
             bool currIsValid = true;
             for (int j = i + 1; j < transactions.size(); j++) {
+                if (visited[i] != 0 && visited[j] != 0) {
+                    continue;
+                }
+
                 string next_transaction = transactions[j];
                 vector<string> next = getData(next_transaction);
                 
