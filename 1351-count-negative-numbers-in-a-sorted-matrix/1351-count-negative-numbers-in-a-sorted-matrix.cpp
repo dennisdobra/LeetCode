@@ -4,7 +4,6 @@ public:
         int count = 0;
 
         for (int i = 0; i < grid.size(); i++) {
-            cout << "row " << i << " has " << FirstNegative(grid[i]) << " negtive numbers" << endl;
             count += FirstNegative(grid[i]);
         }
 
