@@ -10,9 +10,9 @@ public:
         for (int i = 0; i < cards.size(); i++) {
             if (myMap.find(cards[i]) != myMap.end()) {
                 ans = min(ans, i - myMap[cards[i]] + 1);
-            } else {
-                myMap[cards[i]] = i;
             }
+
+            myMap[cards[i]] = i;
         }
 
         if (ans == INT_MAX) return -1;
