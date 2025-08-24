@@ -11,38 +11,28 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* origin = head;
-
+        // create a gap of n node between 2 pointers
         ListNode* slow = head;
         ListNode* fast = head;
-        ListNode* slowPrev = head;
 
         for (int i = 0; i < n; i++) {
             fast = fast->next;
         }
 
+        ListNode* slowPrev = nullptr;
         while (fast != nullptr) {
             slowPrev = slow;
             slow = slow->next;
             fast = fast->next;
         }
 
-        // lista are un singur element
-        if (slow == origin) {
-            if (slow->next != nullptr) {
-                return slow->next;
-            }
-            return nullptr;
+        // the node which should be deleted is slow
+        if (slowPrev == nullptr) {
+            return slow->next;
         }
 
-        removeNode(slowPrev);
+        slowPrev->next = slowPrev->next->next;
 
-        return origin;
-    }
-
-    void removeNode(ListNode* prevNode) {
-        if (prevNode->next != nullptr) {
-            prevNode->next = prevNode->next->next;
-        }
+        return head;
     }
 };
