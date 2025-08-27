@@ -18,7 +18,7 @@ public:
     }
     
     int get(int index) {
-        if (index > size || size == 0) return -1;
+        if (index >= size || size == 0) return -1;
 
         int pos = 0;
         ListNode* curr = head;
@@ -84,7 +84,7 @@ public:
         }
 
         if (index == 0) {
-            ListNode* next = head->next;
+            ListNode* next = head;
             head = newNode;
             newNode->next = next;
             size++;
@@ -112,7 +112,7 @@ public:
 
         size++;
 
-        print(head);
+        // print(head);
     }
     
     void deleteAtIndex(int index) {
@@ -123,7 +123,9 @@ public:
         // check if we have to delete the head
         if (size > 0 && index == 0) {
             if (head->next != nullptr) {
+                ListNode *toDelete = head;
                 head = head->next;
+                delete toDelete;
             } else {
                 head = nullptr;
             }
@@ -147,6 +149,7 @@ public:
             return;
         } else {
             prev->next = curr->next;
+            delete curr;
             size--;
             return;
         }
