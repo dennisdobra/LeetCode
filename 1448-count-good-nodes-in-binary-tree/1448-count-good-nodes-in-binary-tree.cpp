@@ -12,7 +12,34 @@
 class Solution {
 public:
     int goodNodes(TreeNode* root) {
-        return dfs(root, INT_MIN);
+        /* RECURSIVE */
+        // return dfs(root, INT_MIN);
+
+        /* ITERATIVE */
+        if (root == nullptr) return 0;
+
+        stack<pair<TreeNode*, int>> stack;
+        stack.push({root, INT_MIN});
+        int ans = 0;
+
+        while (!stack.empty()) {
+            auto [node, max_so_far] = stack.top();
+            stack.pop();
+
+            if (node->val >= max_so_far) {
+                ans++;
+            }
+
+            if (node->left != nullptr) {
+                stack.push({node->left, max(max_so_far, node->val)});
+            }
+
+            if (node->right != nullptr) {
+                stack.push({node->right, max(max_so_far, node->val)});
+            }
+        }
+
+        return ans;
     }
 
     int dfs(TreeNode* node, int max_so_far) {
