@@ -19,24 +19,27 @@ public:
 
         vector<vector<int>> ans;
 
-        bool left = false;
+        bool leftToRight = false;
         while (!deque.empty()) {
             int nodesInCurrLevel = deque.size();
-            vector<int> curLevel;
+            vector<int> currLevelNodes;
 
             for (int i = 0; i < nodesInCurrLevel; i++) {
                 TreeNode* node;
-                if (left == true) {
+
+                if (leftToRight == true) {
+                    // traverse level from left to right
                     node = deque.front();
                     deque.pop_front();
                 } else {
+                    // traverse level from right to left
                     node = deque.back();
                     deque.pop_back();
                 }
 
-                curLevel.push_back(node->val);
-
-                if (left == true) {
+                currLevelNodes.push_back(node->val);
+                
+                if (leftToRight == true) {
                     if (node->right != nullptr) deque.push_back(node->right);
                     if (node->left != nullptr) deque.push_back(node->left);
 
@@ -45,12 +48,11 @@ public:
 
                 if (node->left != nullptr) deque.push_front(node->left);
                 if (node->right != nullptr) deque.push_front(node->right);
-
             }
 
-            left = !left;
+            leftToRight = !leftToRight;
 
-            ans.push_back(curLevel);
+            ans.push_back(currLevelNodes);
         }
 
         return ans;
