@@ -12,22 +12,16 @@
 class Solution {
 public:
     int minDepth(TreeNode* root) {
-        return dfs(root);
-    }
+        if (root ==  nullptr) return 0;
 
-    int dfs(TreeNode* root) {
-        if (root == nullptr) {
-            return 0;
-        }
-
-        // only one children is non-null
+        // only one child is non-null
         if (root->left == nullptr) {
-            return 1 + dfs(root->right);
+            return 1 + minDepth(root->right);
         } else if (root->right == nullptr) {
-            return 1 + dfs(root->left);
+            return 1 + minDepth(root->left);
         }
 
         // both children are non-null
-        return 1 + min(dfs(root->left), dfs(root->right));
+        return 1 + min(minDepth(root->left), minDepth(root->right));
     }
 };
