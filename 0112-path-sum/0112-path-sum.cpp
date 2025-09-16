@@ -11,14 +11,22 @@
  */
 class Solution {
 public:
-     bool hasPathSum(TreeNode* root, int targetSum) {
-        if (!root)
-            return false;
+    int target;
 
-        if (!root->left && !root->right)
-            return root->val == targetSum;
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        target = targetSum;
+        return dfs(root, 0);
+    }
 
-        return hasPathSum(root->left, targetSum - root->val) || 
-               hasPathSum(root->right, targetSum - root->val);
+    bool dfs(TreeNode* node, int curr) {
+        if (node == nullptr) return false;
+
+        // we encountered a leaf => check if the path sum is equal to target
+        if (node->left == nullptr && node->right == nullptr) return (curr + node->val) == target;
+
+        curr += node->val;
+        bool left = dfs(node->left, curr);
+        bool right = dfs(node->right, curr);
+        return left || right;
     }
 };
