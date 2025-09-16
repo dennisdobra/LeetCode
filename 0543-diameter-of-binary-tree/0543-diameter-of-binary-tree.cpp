@@ -10,23 +10,25 @@
  * };
  */
 class Solution {
-public:
-    int ans = 0;
+private:
+    int diameter;
 
-    int diameterOfBinaryTree(TreeNode* root) {
-        maxDepth(root);
-        return ans;
+    int longestPath(TreeNode* node) {
+        if (node == nullptr) return -1;
+
+        // recursively find the longest path in both left and right children
+        int leftPath = longestPath(node->left);
+        int rightPath = longestPath(node->right);
+
+        diameter = max(diameter, leftPath + rightPath + 2);
+
+        return max(leftPath, rightPath) + 1;
     }
 
-    int maxDepth(TreeNode* root) {
-        if (root == nullptr) {
-            return 0;
-        }
-
-        int left = maxDepth(root->left);
-        int right = maxDepth(root->right);
-        
-        ans = max(ans, left + right);
-        return 1 + max(left, right);
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        diameter = 0;
+        longestPath(root);
+        return diameter;
     }
 };
