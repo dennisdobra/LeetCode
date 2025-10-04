@@ -30,6 +30,7 @@ public:
         return num_islands;
     }
 
+    /* RECURSIVE DFS */
     void dfs(int row, int col) {
         // start dfs from every valid neighbor
         for (vector<int>& dir : directions) {
@@ -40,6 +41,27 @@ public:
             if (valid(nextRow, nextCol) && seen[nextRow][nextCol] == false) {
                 seen[nextRow][nextCol] = true;  // mark as visited
                 dfs(nextRow, nextCol);
+            }
+        }
+    }
+
+    /* ITERATIVE DFS */
+    void iterative_dfs(int startRow, int startCol) {
+        stack<pair<int, int>> stack;
+        stack.push(pair(startRow, startCol));
+
+        while (!stack.empty()) {
+            auto[row, col] = stack.top();
+            stack.pop();
+
+            for (vector<int>& dir : directions) {
+                int nextRow = row + dir[0];
+                int nextCol = col + dir[1];
+
+                if (valid(nextRow, nextCol) && seen[nextRow][nextCol] == false) {
+                    seen[nextRow][nextCol] = true;
+                    stack.push(pair(nextRow, nextCol));
+                }
             }
         }
     }
