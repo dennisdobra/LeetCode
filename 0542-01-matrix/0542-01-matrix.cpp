@@ -30,7 +30,7 @@ public:
 
             int row = curr[0], col = curr[1], steps = curr[2];
 
-            for (vector<int> dir : directions) {
+            for (vector<int>& dir : directions) {
                 int nextRow = row + dir[0];
                 int nextCol = col + dir[1];
 
@@ -46,6 +46,6 @@ public:
     }
 
     bool valid(int row, int col) {
-        return row >= 0 && row < m && col >= 0 && col < m;
+        return row >= 0 && row < m && col >= 0 && col < n;
     }
 };
