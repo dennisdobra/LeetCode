@@ -4,7 +4,6 @@ public:
     vector<vector<int>> grid;
     vector<vector<int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
-
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         if (grid[0][0] != 0) return -1;
 
@@ -12,8 +11,9 @@ public:
         this->grid = grid;
         n = grid.size();
         vector<vector<bool>> seen(n, vector<bool>(n, false));
-
         queue<pair<int, int>> queue;
+
+        // marchez nodul de start ca vizitat + il pun in coada
         seen[0][0] = true;
         queue.push({0, 0});
 
@@ -44,6 +44,43 @@ public:
 
         return -1;
     }
+
+    // int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+    //     if (grid[0][0] != 0) return -1;
+
+    //     // initializari
+    //     this->grid = grid;
+    //     n = grid.size();
+    //     vector<vector<bool>> seen(n, vector<bool>(n, false));
+    //     queue<vector<int>> queue;
+
+    //     // marchez nodul de start ca vizitat + il pun in coada
+    //     seen[0][0] = true;
+    //     queue.push({0, 0, 1});  // row, col, steps
+
+    //     while (!queue.empty()) {
+    //         vector<int> curr = queue.front();
+    //         queue.pop();
+
+    //         int row = curr[0], col = curr[1], steps = curr[2];
+
+    //         // verific daca am ajuns la destinatie
+    //         if (row == n - 1 && col == n - 1) return steps;
+
+    //         // iau fiecare vecin valid al nodului curent si il pun coada
+    //         for (vector<int> dir : directions) {
+    //             int nextRow = row + dir[0];
+    //             int nextCol = col + dir[1];
+
+    //             if (valid(nextRow, nextCol) && seen[nextRow][nextCol] == false) {
+    //                 seen[nextRow][nextCol] = true;
+    //                 queue.push({nextRow, nextCol, steps + 1});
+    //             }
+    //         }
+    //     }
+
+    //     return -1;
+    // }
 
     bool valid(int row, int col) {
         return row >= 0 && row < n && col >= 0 && col < n && grid[row][col] == 0;
