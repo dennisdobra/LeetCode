@@ -12,34 +12,32 @@
 class Solution {
 public:
     int target;
-    int ans = 0;
-    unordered_map<long long, int> map;
+    int countPaths = 0;
+    unordered_map<long, int> prefixSum;
 
-    void dfs(TreeNode* node, long long currSum) {
+    void dfs(TreeNode* node, long currSum) {
         if (node == nullptr) return;
 
-        // current prefix sum
+        // add the current node to the overall prefix sum
         currSum += node->val;
 
-        if (currSum == target) ans++;
+        // a path starting from root is equal to target
+        if (currSum == target) countPaths++;
 
-        // the nr of times 'currSum - target' has occured already,
-        // determines the nr of times a path with sum target
-        // has occured up to the current node
-        ans += map[currSum - target];
+        // add the number of paths that do not start from root
+        countPaths += prefixSum[currSum - target];
 
-        // add the current sum into the map
-        map[currSum]++;
+        prefixSum[currSum]++;
 
         dfs(node->left, currSum);
         dfs(node->right, currSum);
 
-        map[currSum] -= 1;
+        prefixSum[currSum]--;
     }
 
     int pathSum(TreeNode* root, int targetSum) {
         target = targetSum;
-        dfs(root, 0LL);
-        return ans;
+        dfs(root, 0L);
+        return countPaths;
     }
 };
