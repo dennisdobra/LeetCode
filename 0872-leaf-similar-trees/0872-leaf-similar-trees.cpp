@@ -11,24 +11,31 @@
  */
 class Solution {
 public:
-    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
-        vector<int> leaves1;
-        vector<int> leaves2;
+    vector<int> leaves1;
+    vector<int> leaves2;
 
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
         dfs(root1, leaves1);
         dfs(root2, leaves2);
 
-        return leaves1 == leaves2;
-    }
+        if (leaves1.size() != leaves2.size()) return false;
 
-    void dfs(TreeNode* node, vector<int>& leaves) {
-        if (node == nullptr) return;
-
-        if (node->left == nullptr && node->right == nullptr) {
-            leaves.push_back(node->val);
+        for (int i = 0; i < leaves1.size(); i++) {
+            if (leaves1[i] != leaves2[i]) return false;
         }
 
-        dfs(node->left, leaves);
-        dfs(node->right, leaves);
+        return true;
+    }
+
+    void dfs(TreeNode* root, vector<int>& leaves) {
+        if (root == nullptr) return;
+
+        // check if we have reached a leaf
+        if (root->left == nullptr && root->right == nullptr) {
+            leaves.push_back(root->val);
+        }
+
+        dfs(root->left, leaves);
+        dfs(root->right, leaves);
     }
 };
