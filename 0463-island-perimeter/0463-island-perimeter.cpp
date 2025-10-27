@@ -19,7 +19,6 @@ public:
                 if (grid[i][j] == 1) {
                     row = i;
                     col = j;
-                    cout << row << " " << col << endl;
                     break;
                 }
             }
@@ -64,11 +63,13 @@ public:
     int isConnectedToWater(int row, int col) {
         int count = 0;
         for (vector<int> dir : directions) {
-            if (isValid(row + dir[0], col + dir[1]) &&    // is a valid cell
-                grid[row + dir[0]][col + dir[1]] == 0)    // is water
+            if (isValid(row + dir[0], col + dir[1]) && grid[row + dir[0]][col + dir[1]] == 0) {
+                // water cell
                 count++;
-            
-            if (!isValid(row + dir[0], col + dir[1])) count++;
+            } else if (!isValid(row + dir[0], col + dir[1])) {
+                // border cell
+                count++;
+            }
         }
             
         return count;
