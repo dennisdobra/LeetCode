@@ -35,9 +35,6 @@ public:
 
         if (freshOranges == 0 && rottenOranges == 0) return 0;
 
-        cout << "fresh: " << freshOranges << endl;
-        cout << "rotten: " << rottenOranges << endl;
-
         if (rottenOranges == 0) return -1;
 
         int maxMinutes = 0;
@@ -58,6 +55,8 @@ public:
 
                         times[newRow][newCol] = currMinutes + 1;
                         queue.push({newRow, newCol, currMinutes + 1});
+
+                        maxMinutes = max(maxMinutes, currMinutes + 1);
                 }
             }
         }
@@ -65,13 +64,13 @@ public:
         if (freshOranges != 0) return -1;
 
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (times[i][j] != INT_MAX && times[i][j] > maxMinutes) {
-                    maxMinutes = times[i][j];
-                }
-            }
-        }
+        // for (int i = 0; i < m; i++) {
+        //     for (int j = 0; j < n; j++) {
+        //         if (times[i][j] != INT_MAX && times[i][j] > maxMinutes) {
+        //             maxMinutes = times[i][j];
+        //         }
+        //     }
+        // }
 
         return maxMinutes;
     }
