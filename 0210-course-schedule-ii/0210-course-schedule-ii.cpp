@@ -8,7 +8,7 @@ public:
     
     vector<int> color;
     unordered_map<int, vector<int>> graph;
-    stack<int> stack;
+    vector<int> topoOrder;
 
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
 
@@ -30,14 +30,7 @@ public:
             }
         }
 
-        vector<int> topoOrder;
-        while (!stack.empty()) {
-            int curr = stack.top();
-            stack.pop();
-
-            topoOrder.push_back(curr);
-        }
-
+        reverse(topoOrder.begin(), topoOrder.end());
         return topoOrder;
     }
 
@@ -58,7 +51,7 @@ public:
 
         // no cycle detected starting dfs from 'node'
         color[node] = BLACK;
-        stack.push(node);
+        topoOrder.push_back(node);
         
         return false;
     }
