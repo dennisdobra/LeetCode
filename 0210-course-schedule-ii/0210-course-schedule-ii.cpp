@@ -1,44 +1,67 @@
 class Solution {
 public:
+
+    /* TOPOLOGICAL SORT USING DFS */
+    int WHITE = 0;
+    int GREY = 1;
+    int BLACK = 2;
+    
+    vector<int> color;
     unordered_map<int, vector<int>> graph;
-    vector<int> state;
-    vector<int> courseOrder;
+    stack<int> stack;
 
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+
+        // By default, all vertices are WHITE (not visited)
+        color = vector(numCourses, WHITE);
+
+        // create the graph (as an adjacency list)
         for (vector<int>& edge : prerequisites) {
-            graph[edge[1]].push_back(edge[0]);
+            int first = edge[1];
+            int second = edge[0];
+
+            graph[first].push_back(second);
         }
 
-        state = vector<int>(numCourses, 0);
-
+        // If the node is unprocessed, call dfs on it
         for (int i = 0; i < numCourses; i++) {
-            if (state[i] == 0 && dfs(i) == true) {
+            if (color[i] == WHITE && dfs(i) == true) {
                 return {};
             }
         }
 
-        reverse(courseOrder.begin(), courseOrder.end());
-        return courseOrder;
+        vector<int> topoOrder;
+        while (!stack.empty()) {
+            int curr = stack.top();
+            stack.pop();
+
+            topoOrder.push_back(curr);
+        }
+
+        return topoOrder;
     }
 
+    // function that detects if there is a cycle
     bool dfs(int node) {
-        // mark the current node as visiting
-        state[node] = 1;
+        color[node] = 1;
 
-        for (int& neigh : graph[node]) {
-            if (state[neigh] == 0) {
-                // check if there is a cycle deeper
+        for (int neigh : graph[node]) {
+            if (color[neigh] == 1) {
+                // found a cycle
+                return true;
+            } else if (color[neigh] == 0) {
                 if (dfs(neigh) == true) {
                     return true;
                 }
-            } else if (state[neigh] == 1) {
-                return true;
             }
         }
 
-        // no cycle found starting DFS from this node
-        state[node] = 2;
-        courseOrder.push_back(node);
+        // no cycle detected starting dfs from 'node'
+        color[node] = BLACK;
+        stack.push(node);
+        
         return false;
     }
+
+    /* TOPOLOGICAL SORT USING BFS (KAHN'S ALGORITHM) */
 };
