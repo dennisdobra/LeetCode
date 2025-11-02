@@ -29,11 +29,30 @@ public:
         return connected_components;
     }
 
+    // RECURSIVE DFS
     void dfs(int node) {
         for (int neigh : graph[node]) {
             if (!seen.contains(neigh)) {
                 seen.insert(neigh);
                 dfs(neigh);
+            }
+        }
+    }
+
+    // ITERATIVE dfs
+    void iterative_dfs(int node) {
+        stack<int> stack;
+        stack.push(node);
+
+        while (!stack.empty()) {
+            int curr = stack.top();
+            stack.pop();
+
+            for (int neigh : graph[curr]) {
+                if (!seen.contains(curr)) {
+                    seen.insert(curr);
+                    stack.push(neigh);
+                } 
             }
         }
     }
