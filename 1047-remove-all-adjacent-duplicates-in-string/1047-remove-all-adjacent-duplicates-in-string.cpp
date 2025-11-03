@@ -7,12 +7,13 @@ public:
         for (int i = 1; i < s.size(); i++) {
             char curr = s[i];
 
-            if (!stack.empty() && curr == stack.top()) {
-                while (!stack.empty() && curr == stack.top()) {
-                    stack.pop();
-                }
-            } else {
+            if (stack.empty() || (!stack.empty() && curr != stack.top())) {
                 stack.push(curr);
+                continue;
+            }
+
+            while (!stack.empty() && curr == stack.top()) {
+                stack.pop();
             }
         }
 
