@@ -4,9 +4,9 @@ public:
     unordered_set<int> seen;
 
     int findCircleNum(vector<vector<int>>& isConnected) {
-        // preprocessing
-        for (int i = 0; i < isConnected.size(); i++) {
-            for (int j = i + 1; j < isConnected.size(); j++) {
+        int n = isConnected.size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 if (isConnected[i][j] == 1) {
                     graph[i].push_back(j);
                     graph[j].push_back(i);
@@ -14,45 +14,22 @@ public:
             }
         }
 
-        int connected_components = 0;
-
+        int provinces = 0;
         for (int i = 0; i < isConnected.size(); i++) {
-            if (seen.contains(i)) {
-                continue;
+            if (!seen.contains(i)) {
+                dfs(i);
+                provinces++;
             }
-
-            connected_components++;
-            seen.insert(i);
-            dfs(i);
         }
 
-        return connected_components;
+        return provinces;
     }
 
-    // RECURSIVE DFS
     void dfs(int node) {
         for (int neigh : graph[node]) {
             if (!seen.contains(neigh)) {
                 seen.insert(neigh);
                 dfs(neigh);
-            }
-        }
-    }
-
-    // ITERATIVE dfs
-    void iterative_dfs(int node) {
-        stack<int> stack;
-        stack.push(node);
-
-        while (!stack.empty()) {
-            int curr = stack.top();
-            stack.pop();
-
-            for (int neigh : graph[curr]) {
-                if (!seen.contains(curr)) {
-                    seen.insert(curr);
-                    stack.push(neigh);
-                } 
             }
         }
     }
