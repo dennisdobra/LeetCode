@@ -22,23 +22,19 @@ public:
         while (!queue.empty()) {
             int nodesInCurrLevel = queue.size();
 
-            vector<int> currLevel;
+            vector<int> tmp;
+
             for (int i = 0; i < nodesInCurrLevel; i++) {
                 TreeNode* curr = queue.front();
                 queue.pop();
 
-                currLevel.push_back(curr->val);
+                tmp.push_back(curr->val);
 
-                if (curr->left != nullptr) {
-                    queue.push(curr->left);
-                }
-
-                if (curr->right != nullptr) {
-                    queue.push(curr->right);
-                }
+                if (curr->left != nullptr) queue.push(curr->left);
+                if (curr->right != nullptr) queue.push(curr->right);
             }
 
-            ans.push_back(currLevel);
+            ans.push_back(tmp);
         }
 
         return ans;
