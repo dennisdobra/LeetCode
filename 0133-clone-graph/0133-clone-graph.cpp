@@ -24,31 +24,43 @@ public:
     Node* cloneGraph(Node* node) {
         if (node == nullptr) return nullptr;
 
-        // key -> value: old pointer -> new pointer
-        unordered_map<Node*, Node*> pointerClone;
-
-        queue<Node*> queue;
+        // key -> value map
+        // key = pointer to original node
+        // value = pointer to cloned node
+        unordered_map<Node*, Node*> map;
 
         // create clone for start node
-        pointerClone[node] = new Node(node->val);
+        map[node] = new Node(node->val);
+
+        // queue for the nodes in the original graph
+        queue<Node*> queue;
         queue.push(node);
 
         while (!queue.empty()) {
+            // take the first node from the queue (original node)
             Node* curr = queue.front();
             queue.pop();
 
-            // traverse the original graph
+            // iterate over the neighbours of the original node
             for (Node* neigh : curr->neighbors) {
-                // if the neighbour is not cloned => we clone it
-                if (!pointerClone.count(neigh)) {
-                    pointerClone[neigh] = new Node(neigh->val);
+                // if the neighbor has not been cloned => i clone it
+                if (!map.count(neigh)) {
+                    // clone the neighbor
+                    map[neigh] = new Node(neigh->val);
+
+                    // push the original neighbor in the queue
                     queue.push(neigh);
                 }
 
-                pointerClone[curr]->neighbors.push_back(pointerClone[neigh]);
+                // push the pointers for the cloned neighbors in neighbor list for the cloned node
+
+                // map[curr] = pointer to the cloned node of curr
+                // map[curr]->neighbors = list of neighbors for the cloned node
+                // map[neigh] = pointer to the cloned neigh
+                map[curr]->neighbors.push_back(map[neigh]);
             }
         }
 
-        return pointerClone[node];
+        return map[node];
     }
 };
