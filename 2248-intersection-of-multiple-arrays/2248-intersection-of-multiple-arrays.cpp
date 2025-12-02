@@ -1,16 +1,17 @@
 class Solution {
 public:
     vector<int> intersection(vector<vector<int>>& nums) {
-        unordered_map<int, int> freq;
+        unordered_map<int,int> map;
 
-        for (vector<int>& arr : nums) {
-            for (int x : arr) {
-                freq[x]++;
+        for (vector<int>& vec : nums) {
+            for (int num : vec) {
+                map[num]++;
             }
         }
 
+        // get all elements that have frequency = nums.size();
         vector<int> ans;
-        for (const auto& pair : freq) {
+        for (auto& pair : map) {
             if (pair.second == nums.size()) {
                 ans.push_back(pair.first);
             }
