@@ -51,6 +51,7 @@ public:
             result = prevNode;
         }
 
+        // connect to the right side (to the next node or to nullptr)
         leftBound->next = curr;
 
         return result;
