@@ -3,19 +3,17 @@ public:
     bool isValid(string s) {
         stack<char> stack;
 
-        for (int i = 0; i < s.size(); i++) {
-            if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
-                stack.push(s[i]);
+        for (char c : s) {
+            if (c == '(' || c == '[' || c == '{') {
+                stack.push(c);
             } else {
-                if (stack.empty()) return false;
-
-                if (s[i] == ')') {
+                if (c == ')') {
                     if (stack.top() != '(') return false;
                     stack.pop();
-                } else if (s[i] == ']') {
+                } else if (c == ']') {
                     if (stack.top() != '[') return false;
                     stack.pop();
-                } else if (s[i] == '}') {
+                } else if (c == '}') {
                     if (stack.top() != '{') return false;
                     stack.pop();
                 }
