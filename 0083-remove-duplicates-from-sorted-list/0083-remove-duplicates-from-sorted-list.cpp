@@ -11,23 +11,18 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        unordered_set<int> seen;
-        
         ListNode* curr = head;
-        ListNode* prev = nullptr;
         
         while (curr != nullptr) {
-            if (seen.contains(curr->val)) {
-                // delete the node curr
-                prev->next = curr->next;
-                curr = curr->next;
-                continue;
+            if (curr->next != nullptr) {
+                if (curr->val == curr->next->val) {
+                    curr->next = curr->next->next;
+                } else {
+                    curr = curr->next;
+                }
+            } else {
+                break;
             }
-            
-            seen.insert(curr->val);
-
-            prev = curr;
-            curr = curr->next;
         }
         
         return head;
