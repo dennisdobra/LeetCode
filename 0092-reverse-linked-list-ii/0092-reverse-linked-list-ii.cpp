@@ -11,49 +11,44 @@
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        // save a pointer to the head for the result
-        ListNode* result = head;
+        if (left == right) return head;
 
-        // set a pointer to the node at position left and one at left - 1
-        int count = 1;
-        ListNode* leftBound = head;
-        ListNode* prevLeft = nullptr;
-        while (count < left) {
-            prevLeft = leftBound;
-            leftBound = leftBound->next;
+        ListNode* prevLeft = nullptr;    // save the node at position left - 1
+        ListNode* nextRight = nullptr;   // save the node at position right + 1
 
-            count++;
+        ListNode* curr = head;
+        for (int i = 1; i <= right; i++) {
+            if (i == left - 1) {
+                prevLeft = curr;
+            } else if (i == right) {
+                nextRight = curr->next;
+            }
+
+            curr = curr->next;
         }
 
-        // prevLeft = the node before the one at position left
-        // leftBound = the node at position left
+        // save the first node to be sorted to connect it in the end
+        ListNode* dummy = (prevLeft == nullptr ? head : prevLeft->next);
 
-
-        // reverse from left to right
-        ListNode* prevNode = nullptr;
-        ListNode* curr = leftBound;
-
-        while (count <= right) {
+        // reverse nodes between prevLeft->next and right
+        curr = dummy;
+        ListNode* prev = nullptr;
+        while (curr != nextRight) {
             ListNode* nextNode = curr->next;
-
-            curr->next = prevNode;
-            prevNode = curr;
+            curr->next = prev;
+            prev = curr;
             curr = nextNode;
-
-            count++;
         }
 
-        // connect to the left side
+        // connect to the original list
         if (prevLeft != nullptr) {
-            // maybe left is the first node
-            prevLeft->next = prevNode;
+            prevLeft->next = prev;
         } else {
-            result = prevNode;
+            dummy->next = nextRight;
+            return prev;
         }
-
-        // connect to the right side (to the next node or to nullptr)
-        leftBound->next = curr;
-
-        return result;
+        
+        dummy->next = nextRight;
+        return head;
     }
 };
