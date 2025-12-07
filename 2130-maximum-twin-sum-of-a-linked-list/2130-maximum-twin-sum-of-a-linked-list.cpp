@@ -11,53 +11,54 @@
 class Solution {
 public:
     int pairSum(ListNode* head) {
-        int ans = INT_MIN;
+        // reverse the second half of the list
+        // A -> B -> C -> D -> E -> F => A -> B -> C -> F -> E -> D
 
         ListNode* slow = head;
         ListNode* fast = head;
-        ListNode* slowPrev = head;
 
-        // find the middle of the list and count how far it is
-        int count = 0;
+        int size = 0;
+        ListNode* slowPrev = nullptr;
         while (fast != nullptr && fast->next != nullptr) {
             slowPrev = slow;
             slow = slow->next;
             fast = fast->next->next;
-            count++;
+            size += 2;
         }
 
-        // now slow is at the middle of the list =>
-        // we need to reverse the second half of the list (starting with slow)
-        ListNode* curr = slow;
+        cout << size << endl;
+
+        // reverse the list starting at slow
+        ListNode* reverseHead = slow;
         ListNode* prev = nullptr;
-        while (curr != nullptr) {
-            ListNode* nextNode = curr->next;
-
-            curr->next = prev;
-            prev = curr;
-            curr = nextNode;
+        while (reverseHead != nullptr) {
+            ListNode* nextNode = reverseHead->next;
+            reverseHead->next = prev;
+            prev = reverseHead;
+            reverseHead = nextNode;
         }
 
-        // connect to the first half
+        // connect the first half of the list to the second half
         slowPrev->next = prev;
 
-        ListNode* first = head;
-        ListNode* second = head;
-
-        // create a n / 2 gap between the two pointers
-        for (int i = 0; i < count; i++) {
-            second = second->next;
+        // create a n / 2 gap between nodes
+        slow = head;
+        fast = head;
+        for (int i = 0; i < size / 2; i++) {
+            fast = fast->next;
         }
 
-        while (second != nullptr) {
-            if (first->val + second->val > ans) {
-                ans = first->val + second->val;
+        // check every pair and find max twin sum
+        int maxTwinSum = 0;
+        while (fast != nullptr) {
+            if (slow->val + fast->val > maxTwinSum) {
+                maxTwinSum = slow->val + fast->val;
             }
 
-            first = first->next;
-            second = second->next;
+            slow = slow->next;
+            fast = fast->next;
         }
 
-        return ans;
+        return maxTwinSum;
     }
 };
