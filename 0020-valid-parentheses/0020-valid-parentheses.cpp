@@ -7,19 +7,16 @@ public:
             if (c == '(' || c == '[' || c == '{') {
                 stack.push(c);
             } else {
-                if (c == ')') {
-                    if (stack.top() != '(') return false;
-                    stack.pop();
-                } else if (c == ']') {
-                    if (stack.top() != '[') return false;
-                    stack.pop();
-                } else if (c == '}') {
-                    if (stack.top() != '{') return false;
-                    stack.pop();
-                }
-            }
+                if (stack.empty()) return false;
+
+                if (c == ')' && stack.top() != '(') return false;
+                if (c == ']' && stack.top() != '[') return false;
+                if (c == '}' && stack.top() != '{') return false;
+
+                stack.pop();
+            }    
         }
 
-        return stack.empty();
+        return true;
     }
 };
