@@ -1,30 +1,33 @@
 class Solution {
 public:
     bool isHappy(int n) {
-        int prev_result = INT_MIN;
-        int curr_result = 0;
+        // use an unordered set to check for infinite loops
+        unordered_set<int> set;
 
-        unordered_set<int> seen;
+        int sum = 0;
+        while (1) {
+            sum = squareDigits(n);
+            if (sum == 1) return true;
 
-        while (curr_result != 1 || (prev_result != curr_result)) {
-            int sum = 0;
-            while (n != 0) {
-                int last_digit = n % 10;
-                sum = sum + (last_digit * last_digit);
-                n = n / 10;
-            }
+            if (set.contains(sum)) return false;
 
-            // check for the endless loop
-            if (seen.contains(sum)) return false;
-            seen.insert(sum);
-            
+            set.insert(sum);
             n = sum;
-            curr_result = n;
-            prev_result = curr_result;
         }
 
-        if (curr_result == 1) return true;
-
         return false;
+    }
+
+    int squareDigits(int n) {
+        int sum = 0;
+
+        while (n != 0) {
+            sum += pow(n % 10, 2);
+            n = n / 10;
+        }
+
+        cout << sum << endl;
+
+        return sum;
     }
 };
