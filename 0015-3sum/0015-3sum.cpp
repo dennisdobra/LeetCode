@@ -1,66 +1,78 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        // sort(nums.begin(), nums.end());
+        /* TIME LIMIT EXCEEDED */
 
-        // vector<pair<int, int>> pairs;
+        // sort(nums.begin(), nums.end());
+        // vector<vector<int>> res;
+
+        // vector<pair<int,int>> pairs;
         // for (int i = 0; i < nums.size() - 2 && nums[i] <= 0; i++) {
-        //     for (int j = i + 1; j < nums.size() - 1 && nums[j] <= 0; j++) {
+        //     for (int j = i + 1; j < nums.size() - 1; j++) {
         //         if (nums[i] + nums[j] <= 0) {
         //             pairs.push_back({i, j});
         //         }
         //     }
         // }
 
-        // vector<vector<int>> result;
-        // for (int i = 0; i < pairs.size(); i++) {
-        //     for (int k = pairs[i].second + 1; k < nums.size(); k++) {
-        //         if (nums[pairs[i].first] + nums[pairs[i].second] + nums[k] == 0) {
-        //             result.push_back({nums[pairs[i].first], nums[pairs[i].second], nums[k]});
-        //         } else if (nums[pairs[i].first] + nums[pairs[i].second] + nums[k] > 0) {
-        //             break;
-        //         }
+        // // for each valid pair of two elements find the thir one
+        // for (auto pair : pairs) {
+        //     for (int k = pair.second + 1; k < nums.size(); k++) {
+        //         int triplet = nums[pair.first] + nums[pair.second] + nums[k];
+
+        //         if (triplet == 0) {
+        //             res.push_back({nums[pair.first], nums[pair.second], nums[k]});
+        //         } else if (triplet > 0) break;
         //     }
         // }
 
-        // sort(result.begin(), result.end());
-        // result.erase(unique(result.begin(), result.end()), result.end());
-        // return result;
+        // // sort the vector of triplets and remove duplicates
+        // sort(res.begin(), res.end());
 
+        // // unique() moves duplicate elements to the end and returns an
+        // // iterator to the beginning of the duplicates
+        // // unique(res.begin(), res.end()) -> returns an iterator to the first duplicate after they are moved to the end
+        // res.erase(unique(res.begin(), res.end()), res.end());
 
+        // return res;
+
+        /* ACCEPTED SOLUTION */
         sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
 
-        vector<vector<int>> result;
+        // iterate the array and fix every element as the first element of the triplet
+        for (int i = 0; i < nums.size(); i++) {
+            // since array is sorted, if nums[i] > 0 => all elements after nums[i] > 0 => no solution
+            if (nums[i] > 0) break;
 
-        for (int i = 0; i < nums.size() && nums[i] <= 0; i++) {
-            if (i == 0 || nums[i - 1] != nums[i]) {
-                twoSum(nums, i, result);
+            // if we fix the same element twice as the first element of the triplet,
+            // we will end up having duplicate triplets
+            if (i == 0 || nums[i] != nums[i - 1]) {
+                twoSum(nums, i, res);
             }
         }
 
-        return result;
+        return res;
     }
 
+    // starting from position i + 1, find all groups of two elements that add up to -nums[i]
     void twoSum(vector<int>& nums, int i, vector<vector<int>>& res) {
-        int low = i + 1;
-        int high = nums.size() - 1;
+        unordered_set<int> seen;
 
-        while (low < high) {
-            int sum = nums[i] + nums[low] + nums[high];
+        for (int j = i + 1; j < nums.size(); j++) {
+            int complement = 0 - nums[i] - nums[j];
 
-            if (sum < 0) {
-                low++;
-            } else if (sum > 0) {
-                high--;
-            } else {
-                // found a triplet
-                res.push_back({nums[i], nums[low], nums[high]});
-                low++;
-                high--;
+            // we found a valid triplet
+            if (seen.contains(complement)) {
+                res.push_back({nums[i], complement, nums[j]});
 
-                // avoid duplicate triplets by skipping consec duplicate values
-                while (low < high && nums[low] == nums[low - 1]) low++;
+                // avoid fixing the second element of the triplet multiple times
+                while (j + 1 < nums.size() && nums[j] == nums[j + 1]) {
+                    j++;
+                }
             }
+
+            seen.insert(nums[j]);
         }
     }
 };
