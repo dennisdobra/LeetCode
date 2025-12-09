@@ -6,28 +6,30 @@ public:
             freq[c - 'a']++;
         }
 
-        // try removing one occurence of each letter and check
-        // if the condition is met
         for (int i = 0; i < 26; i++) {
             if (freq[i] == 0) continue;
 
             freq[i]--;
 
-            bool ok = true;
             int common = 0;
+            bool ok = true;
 
-            // now check if all frequencies are the same
+            // check if after decreasing freq[i] all freqeuncies are the same
             for (int f : freq) {
                 if (f == 0) continue;
 
-                if (common == 0) common = f;    // first non-zero freq becomes baseline
-                else if (f != common) {
-                    // found a mismatch => not valid
+                if (common == 0) {
+                    common = f;
+                    continue;
+                }
+
+                if (f != common) {
                     ok = false;
                     break;
-                } 
+                }
             }
 
+            // all frequencies are the same after we decreased freq[i]
             if (ok == true) return true;
 
             // undo the deletion
