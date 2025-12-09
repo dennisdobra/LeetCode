@@ -10,11 +10,10 @@ public:
         if (stack.empty()) {
             stack.push({val, val});
         } else {
-            int currMin = stack.top().second;
-            if (val < currMin) {
+            if (val < stack.top(). second) {
                 stack.push({val, val});
             } else {
-                stack.push({val, currMin});
+                stack.push({val, stack.top().second});
             }
         }
     }
