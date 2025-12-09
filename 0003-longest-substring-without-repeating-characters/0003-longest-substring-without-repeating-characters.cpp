@@ -1,27 +1,28 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        unordered_map<char, int> chars;
+        unordered_map<char,int> map;
 
-        int left = 0, right = 0;
+        int left = 0;
+        int ans = 0;
+        
+        for (int right = 0; right < s.size(); right++) {
+            // add the current character to the window
+            map[s[right]]++;
 
-        int res = 0;
-        while (right < s.size()) {
-            char r = s[right];
-            chars[r]++;
-
-            while (chars[r] > 1) {
-                // delete the leftmost char
-                char l = s[left];
-                chars[l]--;
+            // make sure the window is valid
+            while (map[s[right]] > 1) {
+                map[s[left]]--;
+                if (map[s[left]] == 0) {
+                    map.erase(s[left]);
+                }
                 left++;
             }
 
-            res = max(res, right - left + 1);
-
-            right++;
+            // windows is valid
+            ans = max(ans, right - left + 1);
         }
 
-        return res;
+        return ans;
     }
 };
