@@ -5,7 +5,7 @@ public:
 
         int left = 0;
         int ans = 0;
-        
+
         for (int right = 0; right < s.size(); right++) {
             // add the current character to the window
             map[s[right]]++;
@@ -13,9 +13,6 @@ public:
             // make sure the window is valid
             while (map[s[right]] > 1) {
                 map[s[left]]--;
-                if (map[s[left]] == 0) {
-                    map.erase(s[left]);
-                }
                 left++;
             }
 
