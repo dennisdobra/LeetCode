@@ -4,10 +4,12 @@ public:
         vector<string> result;
 
         vector<int> visited(transactions.size(), 0);
+        string curr_transaction, next_transaction;
+        vector<string> curr, next;
 
         for (int i = 0; i < transactions.size() - 1; i++) {
-            string curr_transaction = transactions[i];
-            vector<string> curr = getData(curr_transaction);
+            curr_transaction = transactions[i];
+            curr = getData(curr_transaction);
 
             
 
@@ -17,8 +19,8 @@ public:
                     continue;
                 }
 
-                string next_transaction = transactions[j];
-                vector<string> next = getData(next_transaction);
+                next_transaction = transactions[j];
+                next = getData(next_transaction);
                 
                 if (validTransactions(curr, next) == false) {
                     currIsValid = false;
