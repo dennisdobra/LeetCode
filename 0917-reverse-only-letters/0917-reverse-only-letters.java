@@ -27,7 +27,7 @@ class Solution {
         return new String(arr);
     }
 
-    public String reverseOnlyLetters(String s) {
+    public String reverseOnlyLetters__(String s) {
         Stack<Character> stack = new Stack<>();
 
         for (int i = 0; i < s.length(); i++) {
@@ -46,6 +46,26 @@ class Solution {
                 stack.pop();
             } else {
                 sb.append(s.charAt(i));
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public String reverseOnlyLetters(String s) {
+        StringBuilder sb = new StringBuilder();
+
+        int right = s.length() - 1;
+        for (int left = 0; left < s.length(); left++) {
+            if (Character.isAlphabetic(s.charAt(left))) {
+                while (!Character.isAlphabetic(s.charAt(right))) {
+                    right--;
+                }
+
+                sb.append(s.charAt(right));
+                right--;
+            } else {
+                sb.append(s.charAt(left));
             }
         }
 
