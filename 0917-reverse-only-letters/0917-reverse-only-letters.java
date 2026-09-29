@@ -1,5 +1,5 @@
 class Solution {
-    public String reverseOnlyLetters(String s) {
+    public String reverseOnlyLetters_(String s) {
         char[] arr = s.toCharArray();
 
         int left = 0;
@@ -25,5 +25,30 @@ class Solution {
         }
 
         return new String(arr);
+    }
+
+    public String reverseOnlyLetters(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (Character.isAlphabetic(c)) {
+                stack.add(c);
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        
+        for (int i = 0; i < s.length(); i++) {
+            if (Character.isAlphabetic(s.charAt(i))) {
+                sb.append(stack.peek());
+                stack.pop();
+            } else {
+                sb.append(s.charAt(i));
+            }
+        }
+
+        return sb.toString();
     }
 }
