@@ -3,9 +3,9 @@ class Solution {
         char[] arr = s.toCharArray();
 
         int left = 0;
-        while (left < arr.length) {
+        while (left < s.length()) {
             int space = s.indexOf(' ', left);
-            int right = (space == -1) ? arr.length - 1 : space - 1;
+            int right = (space == -1) ? s.length() - 1 : space - 1;
 
             swapLetters(arr, left, right);
 
