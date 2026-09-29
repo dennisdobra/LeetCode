@@ -14,6 +14,13 @@ class NumArray {
     
     public int sumRange(int left, int right) {
         return prefix[right] - prefix[left] + nums[left];
+
+        // with this there is no need to declare nums globally
+        // if (left > 0) {
+        //     return prefix[right] - prefix[left - 1];
+        // }
+
+        // return prefix[right];
     }   
 }
 
