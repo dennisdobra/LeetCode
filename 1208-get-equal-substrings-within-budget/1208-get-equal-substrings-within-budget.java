@@ -5,10 +5,10 @@ class Solution {
         int left = 0;
 
         for (int right = 0; right < s.length(); right++) {
-            cost += Math.abs((s.charAt(right) - 'a') - (t.charAt(right) - 'a'));
+            cost += Math.abs(s.charAt(right) - t.charAt(right));
 
             while (cost > maxCost) {
-                cost -= Math.abs((s.charAt(left) - 'a') - (t.charAt(left) - 'a'));
+                cost -= Math.abs(s.charAt(left) - t.charAt(left));
                 left++;
             }
 
