@@ -1,30 +1,28 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        int i = 0;  // start for each word
-        int j = 0;  // end for end word
+        int left = 0;
+        int right = s.find(' ') - 1;
 
-        while (j < s.size()) {
-            while (s[j] != ' ' && j < s.size()) {
-                j++;
-            }
+        while (right < s.size()) {
+            swapLetters(s, left, right);
 
-            // j is at ' ' now => move one more
-            int next_pos = j + 1;
-
-            j--;
-
-            // reverse each word
-            while (i < j) {
-                swap(s[i], s[j]);
-                i++;
-                j--;
-            }
-
-            // set indices for next word
-            i = j = next_pos;
+            left = right + 2;
+            right = s.find(' ', left) - 1;
         }
 
+        // swap last word
+        swapLetters(s, left, s.size() - 1);
+
         return s;
+    }
+
+    void swapLetters(string& s, int left, int right) {
+        while (left < right) {
+            swap(s[left], s[right]);
+
+            left++;
+            right--;
+        }
     }
 };
