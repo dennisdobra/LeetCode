@@ -2,7 +2,7 @@ class Solution {
     public boolean areOccurrencesEqual(String s) {
         Map<Character,Integer> freq = new HashMap<>();
         
-        for (Character c : s.toCharArray()) {
+        for (char c : s.toCharArray()) {
             freq.put(c, freq.getOrDefault(c, 0) + 1);
         }
 
