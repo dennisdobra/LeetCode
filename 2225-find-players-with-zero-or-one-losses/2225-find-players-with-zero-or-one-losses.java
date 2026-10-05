@@ -1,5 +1,5 @@
 class Solution {
-    public List<List<Integer>> findWinners(int[][] matches) {
+    public List<List<Integer>> findWinners_(int[][] matches) {
         // track all players who played at least one match
         Set<Integer> set = new HashSet<>();
         
@@ -46,4 +46,38 @@ class Solution {
         
         return List.of(neverLost, lostOne);
     }
+
+    public List<List<Integer>> findWinners(int[][] matches) {
+        Map<Integer,Integer> wins = new HashMap<>();   // nr of wins for every player
+        Map<Integer,Integer> losses = new HashMap<>(); // nr of losses for every player
+
+        for (int[] match : matches) {
+            int winner = match[0];
+            int loser = match[1];
+
+            wins.put(winner, wins.getOrDefault(winner, 0) + 1);
+            losses.put(loser, losses.getOrDefault(loser, 0) + 1);
+        }
+
+        List<Integer> zeroLosses = new ArrayList<>();
+        List<Integer> oneLoss = new ArrayList<>();
+
+        for (var pair : wins.entrySet()) {
+            if (!losses.containsKey(pair.getKey())) {
+                zeroLosses.add(pair.getKey());
+            }
+        }
+
+        for (var pair : losses.entrySet()) {
+            if (losses.get(pair.getKey()) == 1) {
+                oneLoss.add(pair.getKey());
+            }
+        }
+
+        Collections.sort(zeroLosses);
+        Collections.sort(oneLoss);
+
+        return List.of(zeroLosses, oneLoss);
+    }
 }
+
