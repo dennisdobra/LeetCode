@@ -1,11 +1,7 @@
 class Solution {
-    public int maximumSum(int[] nums) {
-        // group by digitSum
-
-        // sort every List and reverse
-
-        // get the first two
-
+    // Time Complexity: O(n * log(n)) bc of the sort
+    // Space Complexity: O(n)
+    public int maximumSum_(int[] nums) {
         Map<Integer, List<Integer>> map = new HashMap<>();
 
         for (int num : nums) {
@@ -28,6 +24,27 @@ class Solution {
         }
 
         return ans != Integer.MIN_VALUE ? ans : -1;
+    }
+
+    // Time Complexity: O(n)
+    // Space Complexity: O(n)
+    public int maximumSum(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        int ans = -1;
+        for (int num : nums) {
+            int key = digitSum(num);
+
+            if (map.containsKey(key)) {
+                ans = Math.max(ans, num + map.get(key));
+
+                map.put(key, Math.max(map.get(key), num));
+            } else {
+                map.put(key, num);
+            }
+        }
+
+        return ans;
     }
 
     public int digitSum(int n) {
