@@ -1,28 +1,29 @@
 class Solution {
 public:
     string frequencySort(string s) {
-        unordered_map<char,int> freq;
+        unordered_map<char, int> map;
 
         for (char c : s) {
-            freq[c]++;
+            map[c]++;
         }
 
-        vector<pair<char,int>> sorted(freq.begin(), freq.end());
+        vector<pair<char, int>> vec(map.begin(), map.end());
 
-        sort(sorted.begin(), sorted.end(),
-            [](const auto &a, const auto &b) {
-                return a.second > b.second; // sort by value
-            });
+        sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {
+            if (a.second != b.second) return a.second > b.second;
+            return a.first < b.first;
+        });
 
-        string result = "";
+        // sort(vec.begin(), vec.end(), [](const pair<char, int>& a, const pair<char, int>& b) {
+        //     if (a.second != b.second) return a.second > b.second;
+        //     return a.first < b.first;
+        // });
 
-        for (auto & pair : sorted) {
-            while (pair.second != 0) {
-                result += pair.first;
-                pair.second--;
-            }
+        string sorted = "";
+        for (auto& pair : vec) {
+            sorted.append(pair.second, pair.first);
         }
 
-        return result;
+        return sorted;
     }
 };
