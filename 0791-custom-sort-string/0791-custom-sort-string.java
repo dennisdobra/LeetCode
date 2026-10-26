@@ -31,11 +31,15 @@ class Solution {
         StringBuilder sb = new StringBuilder();
         int[] chars = new int[26];
 
+        // O(s.length())
         for (char c : s.toCharArray()) {
             chars[c - 'a']++;
         }
 
+        // O(order.length()) + O(s.length())
         for (char c : order.toCharArray()) {
+            // if all characters from s are also found in order,
+            // this while loop iterates s.length() times in total
             while (chars[c - 'a'] > 0) {
                 sb.append(c);
                 chars[c - 'a']--;
