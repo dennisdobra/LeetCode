@@ -1,5 +1,5 @@
 class Solution {
-    public int numSubarraysWithSum(int[] nums, int goal) {
+    public int numSubarraysWithSum_(int[] nums, int goal) {
         // map to track the frequency of each prefix sum
         Map<Integer, Integer> prefix = new HashMap<>();
 
@@ -23,6 +23,37 @@ class Solution {
 
             // add the current total prefix to the map
             prefix.put(curr, prefix.getOrDefault(curr, 0) + 1);
+        }
+
+        return ans;
+    }
+
+    // OBS: Compared to problem 560 (Subarray sum equals k), where we could have
+    //      negative integers and tehrefore sliding window was not an option,
+    //      in this problem we can use sliding window, as the window can only increase
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        return atMost(nums, goal) - atMost(nums, goal - 1);
+    }
+
+    // finds all subarrays with a sum equal to or less than limit
+    public int atMost(int[] nums, int limit) {
+        // alternative for (left <= right)
+        // if (limit < 0) return 0; 
+
+        int left = 0;
+        int curr = 0;
+        int ans = 0;
+        for (int right = 0; right < nums.length; right++) {
+            // add the current element to the window
+            curr += nums[right];
+
+            // make sure the window is still valid
+            while (left <= right && curr > limit) {
+                curr -= nums[left];
+                left++;
+            }
+
+            ans += right - left + 1;
         }
 
         return ans;
