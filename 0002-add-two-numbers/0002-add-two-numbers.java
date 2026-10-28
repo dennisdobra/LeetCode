@@ -14,47 +14,29 @@ class Solution {
         ListNode head = result;
 
         int carry = 0;
-        while (l1 != null && l2 != null) {
-            int sum = l1.val + l2.val + carry;
+        while (l1 != null || l2 != null) {
+            int val1 = l1 == null ? 0 : l1.val;
+            int val2 = l2 == null ? 0 : l2.val;
 
-            ListNode node = new ListNode(sum % 10);
+            int sum = val1 + val2 + carry;
+
+            carry = sum / 10;
+            sum = sum % 10;
+
+            ListNode node = new ListNode(sum);
+
             result.next = node;
             result = result.next;
 
-            carry = sum / 10;
-            
-            l1 = l1.next;
-            l2 = l2.next;
+            l1 = l1 == null ? l1 : l1.next;
+            l2 = l2 == null ? l2 : l2.next;
         }
 
-        if (l1 == null) {
-            while (l2 != null) {
-                l2.val = l2.val + carry;
-                carry = l2.val / 10;
-                l2.val = l2.val % 10;
-                result.next = l2;
-                result = result.next;
-                l2 = l2.next;
-            }
-
-            if (carry != 0) {
-                ListNode node = new ListNode(carry);
-                result.next = node;
-            }
-        } else {
-            while (l1 != null) {
-                l1.val = l1.val + carry;
-                carry = l1.val / 10;
-                l1.val = l1.val % 10;
-                result.next = l1;
-                result = result.next;
-                l1 = l1.next;
-            }
-
-            if (carry != 0) {
-                ListNode node = new ListNode(carry);
-                result.next = node;
-            }
+        // we can have 9 + 1 => without considering this carry we will
+        // have the result [0] instead of [0, 1] because both lists
+        // are now null and the loop ends
+        if (carry != 0) {
+            result.next = new ListNode(carry);
         }
 
         return head.next;
