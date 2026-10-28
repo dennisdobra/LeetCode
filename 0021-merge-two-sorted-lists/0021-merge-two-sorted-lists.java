@@ -13,42 +13,27 @@ class Solution {
         if (list1 == null) return list2;
         if (list2 == null) return list1;
 
-        ListNode dummy1 = list1;
-        ListNode dummy2 = list2;
-        ListNode head = null;
-        ListNode res = null;
+        ListNode merged = new ListNode(-1);
+        ListNode head = merged;
 
-        while (dummy1 != null && dummy2 != null) {
-            if (head == null) {
-                if (dummy1.val < dummy2.val) {
-                    head = dummy1;
-                    dummy1 = dummy1.next;
-                } else {
-                    head = dummy2;
-                    dummy2 = dummy2.next;
-                }
-
-                res = head;
-                continue;
-            }
-
-            if (dummy1.val < dummy2.val) {
-                head.next = dummy1;
-                dummy1 = dummy1.next;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                merged.next = list1;
+                list1 = list1.next;
             } else {
-                head.next = dummy2;
-                dummy2 = dummy2.next;
+                merged.next = list2;
+                list2 = list2.next;
             }
 
-            head = head.next;
+            merged = merged.next;
         }
 
-        if (dummy1 != null) {
-            head.next = dummy1;
+        if (list1 == null) {
+            merged.next = list2;
         } else {
-            head.next = dummy2;
+            merged.next = list1;
         }
 
-        return res;
+        return head.next;
     }
 }
