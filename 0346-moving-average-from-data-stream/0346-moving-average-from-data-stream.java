@@ -1,12 +1,13 @@
+
+// Time Complexity: O(1) * O(N) = O(N), N = nr of calls of next method
+// Space Complexity: O(size), the queue can hold at most size elements
 class MovingAverage {
-    Queue<Integer> queue;
+    Queue<Integer> queue = new ArrayDeque<>();
+    double sum = 0;
     int size;
-    double sum;
 
     public MovingAverage(int size) {
-        queue = new ArrayDeque<>();
         this.size = size;
-        sum = 0;
     }
     
     public double next(int val) {
@@ -18,7 +19,7 @@ class MovingAverage {
             queue.poll();
         }
         
-        return (double)(sum / Math.min(size, queue.size()));
+        return sum / queue.size();
     }
 }
 
