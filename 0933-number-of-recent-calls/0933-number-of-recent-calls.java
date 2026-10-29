@@ -3,16 +3,15 @@ class RecentCounter {
     Queue<Integer> queue;
 
     public RecentCounter() {
-        recentRequests = 0;
         queue = new ArrayDeque<>();
     }
     
     public int ping(int t) {
-        queue.offer(t);
-
-        while (queue.peek() < t - 3000) {
+        while (!queue.isEmpty() && queue.peek() + 3000 < t) {
             queue.poll();
         }
+
+        queue.offer(t);
 
         return queue.size();
     }
