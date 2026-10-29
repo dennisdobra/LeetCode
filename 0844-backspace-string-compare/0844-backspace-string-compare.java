@@ -1,24 +1,53 @@
 class Solution {
     public boolean backspaceCompare(String s, String t) {
-        StringBuilder stack1 = new StringBuilder();
-        StringBuilder stack2 = new StringBuilder();
+        int i = s.length() - 1;
+        int j = t.length() - 1;
 
-        for (char c : s.toCharArray()) {
-            if (stack1.length() > 0 && c == '#') {
-                stack1.deleteCharAt(stack1.length() - 1);
-            } else if (c != '#') {
-                stack1.append(c);
+        int skipS = 0;
+        int skipT = 0;
+
+        while (i >= 0 || j >= 0) {
+            // find the next possible character in s
+            while (i >= 0) {
+                if (s.charAt(i) == '#') {
+                    skipS++;
+                    i--;
+                } else if (skipS > 0) {
+                    skipS--;
+                    i--;
+                } else {
+                    // the next possible character is the current one
+                    break;
+                }
             }
+
+            // find the next possible character in t
+            while (j >= 0) {
+                if (t.charAt(j) == '#') {
+                    skipT++;
+                    j--;
+                } else if (skipT > 0) {
+                    skipT--;
+                    j--;
+                } else {
+                    break;
+                }
+            }
+
+            // if the two characters are different
+            if (i >= 0 && j >= 0 && (s.charAt(i) != t.charAt(j))) {
+                return false;
+            }
+
+            // if expecting to compare char vs nothing
+            if ((i >= 0) != (j >= 0)) {
+                return false;
+            }
+
+            i--;
+            j--;
         }
 
-        for (char c : t.toCharArray()) {
-            if (stack2.length() > 0 && c == '#') {
-                stack2.deleteCharAt(stack2.length() - 1);
-            } else if (c != '#') {
-                stack2.append(c);
-            }
-        }
-
-        return  stack1.toString().equals(stack2.toString());
+        return true;
     }
 }
