@@ -1,55 +1,93 @@
-class MyQueue {
-    // push all elements in the stack
-    // when we want the first elem from the queue push all of them to the second stack
-    // push them back to first stack
+// class MyQueue {
+//     Deque<Integer> stack = new ArrayDeque<>();
+//     Deque<Integer> helper = new ArrayDeque<>();
 
-    Deque<Integer> stack = new ArrayDeque<>();
-    Deque<Integer> helper = new ArrayDeque<>();
+//     public MyQueue() {
+        
+//     }
+    
+//     public void push(int x) {
+//         stack.push(x);
+//     }
+    
+//     // Time Complexity: O(N)
+//     public int pop() {
+//         while (stack.size() > 1) {
+//             int elem = stack.pop();
+//             helper.push(elem);
+//         }
+
+//         int first = stack.pop();
+
+//         while (!helper.isEmpty()) {
+//             int elem = helper.pop();
+//             stack.push(elem);
+//         }
+
+//         return first;
+//     }
+    
+//     // Time Complexity: O(N)
+//     public int peek() {
+//         int first = -1;
+
+//         while (!stack.isEmpty()) {
+//             first = stack.peek();
+
+//             int elem = stack.pop();
+//             helper.push(elem);
+//         }
+
+//         while (!helper.isEmpty()) {
+//             int elem = helper.pop();
+//             stack.push(elem);
+//         }
+
+//         return first;
+//     }
+    
+//     public boolean empty() {
+//         return stack.isEmpty();
+//     }
+// }
+
+class MyQueue {
+    Deque<Integer> stack1 = new ArrayDeque<>();
+    Deque<Integer> stack2 = new ArrayDeque<>();
+    int first;
 
     public MyQueue() {
         
     }
     
     public void push(int x) {
-        stack.push(x);
+        if (stack1.isEmpty()) {
+            first = x;
+        }
+
+        stack1.push(x);
     }
     
     public int pop() {
-        while (stack.size() > 1) {
-            int elem = stack.pop();
-            helper.push(elem);
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
         }
 
-        int first = stack.pop();
-
-        while (!helper.isEmpty()) {
-            int elem = helper.pop();
-            stack.push(elem);
-        }
-
-        return first;
+        return stack2.pop();
     }
     
     public int peek() {
-        int first = -1;
-
-        while (!stack.isEmpty()) {
-            first = stack.peek();
-
-            int elem = stack.pop();
-            helper.push(elem);
-        }
-
-        while (!helper.isEmpty()) {
-            int elem = helper.pop();
-            stack.push(elem);
+        if (!stack2.isEmpty()) {
+            return stack2.peek();
         }
 
         return first;
     }
     
     public boolean empty() {
-        return stack.isEmpty();
+        return stack1.isEmpty() && stack2.isEmpty();
     }
 }
 
