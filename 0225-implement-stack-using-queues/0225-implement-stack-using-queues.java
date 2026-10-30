@@ -1,46 +1,76 @@
+// class MyStack {
+//     Queue<Integer> queue1 = new ArrayDeque<>();
+//     Queue<Integer> queue2 = new ArrayDeque<>();
+
+//     public MyStack() {
+        
+//     }
+    
+//     public void push(int x) {
+//         queue1.offer(x);
+//     }
+    
+//     public int pop() {
+//         while (queue1.size() > 1) {
+//             queue2.offer(queue1.poll());
+//         }
+
+//         int val = queue1.poll();
+
+//         while (!queue2.isEmpty()) {
+//             queue1.offer(queue2.poll());
+//         }
+
+//         return val;
+//     }
+    
+//     public int top() {
+//         while (queue1.size() > 1) {
+//             queue2.offer(queue1.poll());
+//         }
+
+//         int val = queue1.peek();
+//         queue2.offer(queue1.poll());
+
+//         while (!queue2.isEmpty()) {
+//             queue1.offer(queue2.poll());
+//         }
+
+//         return val;
+//     }
+    
+//     public boolean empty() {
+//         return queue1.isEmpty();
+//     }
+// }
+
 class MyStack {
-    Queue<Integer> queue1 = new ArrayDeque<>();
-    Queue<Integer> queue2 = new ArrayDeque<>();
+    Queue<Integer> queue = new ArrayDeque<>();
 
     public MyStack() {
         
     }
     
     public void push(int x) {
-        queue1.offer(x);
+        queue.offer(x);
+
+        int sz = queue.size();
+        while (sz > 1) {
+            queue.offer(queue.poll());
+            sz--;
+        }
     }
     
     public int pop() {
-        while (queue1.size() > 1) {
-            queue2.offer(queue1.poll());
-        }
-
-        int val = queue1.poll();
-
-        while (!queue2.isEmpty()) {
-            queue1.offer(queue2.poll());
-        }
-
-        return val;
+        return queue.poll();
     }
     
     public int top() {
-        while (queue1.size() > 1) {
-            queue2.offer(queue1.poll());
-        }
-
-        int val = queue1.peek();
-        queue2.offer(queue1.poll());
-
-        while (!queue2.isEmpty()) {
-            queue1.offer(queue2.poll());
-        }
-
-        return val;
+        return queue.peek();
     }
     
     public boolean empty() {
-        return queue1.isEmpty();
+        return queue.isEmpty();
     }
 }
 
