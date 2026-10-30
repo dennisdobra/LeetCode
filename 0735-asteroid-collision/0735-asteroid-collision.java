@@ -1,44 +1,42 @@
 class Solution {
     public int[] asteroidCollision(int[] asteroids) {
-        List<Integer> stack = new ArrayList<>();
+        Deque<Integer> stack = new ArrayDeque<>();
 
         for (int asteroid : asteroids) {
             // first asteroid
             if (stack.isEmpty()) {
-                stack.add(asteroid);
+                stack.push(asteroid);
                 continue;
             }
 
             // asteroids which never meet
-            if ((asteroid > 0 && stack.getLast() > 0) || (asteroid < 0 && stack.getLast() < 0) ||
-                stack.getLast() < 0 && asteroid > 0) {
-                stack.add(asteroid);
+            if (asteroid > 0 && stack.peek() > 0 || asteroid < 0 && stack.peek() < 0 || asteroid > 0 && stack.peek() < 0) {
+                stack.push(asteroid);
                 continue;
             }
 
-            // asteroid collision
-            while (!stack.isEmpty() && stack.getLast() > 0 && stack.getLast() < Math.abs(asteroid)) {
-                stack.remove(stack.size() - 1);
+            // current asteroid destroys previous asteroids
+            while (!stack.isEmpty() && stack.peek() > 0 && Math.abs(asteroid) > stack.peek()) {
+                stack.pop();
+            }
+
+            // both asteroids explode
+            if (!stack.isEmpty() && Math.abs(asteroid) == stack.peek()) {
+                stack.pop();
                 continue;
             }
 
-            // asteroid collision - both explode
-            if (!stack.isEmpty() && stack.getLast() == Math.abs(asteroid)) {
-                stack.remove(stack.size() - 1);
-                continue;
+            // check if the current asteroid survived all collisions
+            if (stack.isEmpty() || !stack.isEmpty() && stack.peek() < 0) {
+                stack.push(asteroid);
             }
-
-            if (stack.isEmpty() || !stack.isEmpty() && stack.getLast() < 0) {
-                stack.add(asteroid);
-            }
-            
         }
 
-        int[] arr = new int[stack.size()];
-        for (int i = 0; i < stack.size(); i++) {
-            arr[i] = stack.get(i);
+        int[] result = new int[stack.size()];
+        for (int i = result.length - 1; i >= 0; i--) {
+            result[i] = stack.pop();
         }
 
-        return arr;
+        return result;
     }
 }
