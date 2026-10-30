@@ -23,7 +23,7 @@ class Solution {
                     maximum.pollFirst();
                 }
                 
-                if (nums[left] == minimum.peekFirst()) {
+                else if (nums[left] == minimum.peekFirst()) {
                     minimum.pollFirst();
                 }
 
