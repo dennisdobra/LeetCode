@@ -32,7 +32,7 @@ class Solution {
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 
-    // ITERATIVE SOLUTION:
+    // ITERATIVE SOLUTION: O(N) Time and O(N) Space
     public int maxDepth(TreeNode root) {
         if (root == null) return 0;
 
