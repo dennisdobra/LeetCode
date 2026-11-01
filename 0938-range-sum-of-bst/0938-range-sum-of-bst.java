@@ -20,7 +20,7 @@ class Solution {
     //     return root.val + sumOfAllNodes(root.left) + sumOfAllNodes(root.right);
     // }
 
-    public int rangeSumBST(TreeNode root, int low, int high) {
+    public int rangeSumBST_(TreeNode root, int low, int high) {
         if (root == null) return 0;
 
         // to add to the sum the current node must be between low and high
@@ -36,5 +36,25 @@ class Solution {
         }
 
         return rangeSumBST(root.right, low, high);
+    }
+
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        if (root == null) return 0;
+
+        int ans = 0;
+
+        if (root.val >= low && root.val <= high) {
+            ans += root.val;
+        }
+
+        if (low < root.val) {
+            ans += rangeSumBST(root.left, low, high);
+        }
+
+        if (root.val < high) {
+            ans += rangeSumBST(root.right, low, high);
+        }
+
+        return ans;
     }
 }
