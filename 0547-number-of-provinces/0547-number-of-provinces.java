@@ -32,11 +32,29 @@ class Solution {
         return provinces;
     }
 
-    public void dfs(int node) {
+    // RECURSIVE DFS
+    public void dfs_(int node) {
         for (int neigh : graph.getOrDefault(node, new ArrayList<>())) {
             if (!seen.contains(neigh)) {
                 seen.add(neigh);
-                dfs(neigh);
+                dfs_(neigh);
+            }
+        }
+    }
+
+    // ITERATIVE DFS
+    public void dfs(int node) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        stack.push(node);
+
+        while (!stack.isEmpty()) {
+            int curr = stack.pop();
+
+            for (int neigh : graph.getOrDefault(curr, new ArrayList<>())) {
+                if (!seen.contains(neigh)) {
+                    seen.add(neigh);
+                    stack.push(neigh);
+                }
             }
         }
     }
