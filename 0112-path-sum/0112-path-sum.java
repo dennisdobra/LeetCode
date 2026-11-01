@@ -47,8 +47,22 @@ class Solution {
         return dfs(root, 0);
     }
 
-    // ITERATIVE
+    // RECURSIVE WITHOUT HELPER FUNCTION
     public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) return false;
+
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
+        }
+
+        boolean left = hasPathSum(root.left, targetSum - root.val);
+        boolean right = hasPathSum(root.right, targetSum - root.val);
+
+        return left || right;
+    }
+
+    // ITERATIVE
+    public boolean hasPathSum__(TreeNode root, int targetSum) {
         if (root == null) return false;
 
         Deque<Pair> stack = new ArrayDeque<>();
