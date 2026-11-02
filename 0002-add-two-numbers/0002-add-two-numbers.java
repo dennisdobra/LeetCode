@@ -31,6 +31,9 @@ class Solution {
             l2 = l2 != null ? l2.next : null;
         }
 
+        // we can have 9 + 1 => without considering this carry we will
+        // have the result [0] instead of [0, 1] because both lists
+        // are now null and the loop ends
         if (carry != 0) {
             curr.next = new ListNode(carry);
         }
