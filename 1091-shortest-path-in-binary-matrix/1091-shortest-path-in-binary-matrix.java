@@ -12,13 +12,11 @@ class State {
 
 class Solution {
     int[][] directions = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-    int[][] grid;
     int n;
 
     public int shortestPathBinaryMatrix(int[][] grid) {
         if (grid[0][0] != 0) return -1;
 
-        this.grid = grid;
         n = grid.length;
 
         Queue<State> queue = new ArrayDeque<>();
@@ -37,7 +35,7 @@ class Solution {
                 int newRow = row + dir[0];
                 int newCol = col + dir[1];
 
-                if (isValid(newRow, newCol)) {
+                if (isValid(newRow, newCol, grid)) {
                     grid[newRow][newCol] = 1;
                     queue.offer(new State(newRow, newCol, steps + 1));
                 }
@@ -47,7 +45,7 @@ class Solution {
         return -1;
     }
 
-    public boolean isValid(int row, int col) {
+    public boolean isValid(int row, int col, int[][] grid) {
         return row >= 0 && row < n && col >= 0 && col < n && grid[row][col] == 0;
     }
 }
