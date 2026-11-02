@@ -7,77 +7,51 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-class Pair {
-    int node;
-    int steps;
-
-    public Pair(int node, int steps) {
-        this.node = node;
-        this.steps = steps;
-    }
-}
-
 class Solution {
-    Map<Integer, List<Integer>> graph = new HashMap<>();
-
+    Map<TreeNode, TreeNode> parents = new HashMap<>();
+        
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        dfs(root);
+        dfs(root, null);
 
-        // start a bfs from node target
-        Queue<Pair> queue = new ArrayDeque<>();
-        queue.offer(new Pair(target.val, 0));
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(target);
 
-        Set<Integer> seen = new HashSet<>();
-        seen.add(target.val);
+        Set<TreeNode> seen = new HashSet<>();
+        seen.add(target);
 
-        List<Integer> ans = new ArrayList<>();
+        int distance = 0;
+        while (!queue.isEmpty() && distance < k) {
+            int currLength = queue.size();
 
-        while (!queue.isEmpty()) {
-            Pair pair = queue.poll();
-            int node = pair.node;
-            int steps = pair.steps;
+            for (int i = 0; i < currLength; i++) {
+                TreeNode node = queue.poll();
 
-            if (steps == k) {
-                ans.add(node);
-                continue;
-            }
-
-            for (int neigh : graph.get(node)) {
-                if (!seen.contains(neigh)) {
-                    seen.add(neigh);
-                    queue.offer(new Pair(neigh, steps + 1));
+                for (TreeNode neigh : new TreeNode[]{node.left, node.right, parents.get(node)}) {
+                    if (neigh != null && !seen.contains(neigh)) {
+                        seen.add(neigh);
+                        queue.offer(neigh);
+                    }
                 }
             }
+
+            distance++;
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            ans.add(node.val);
         }
 
         return ans;
     }
 
-    // traverse the tree and create the undirected graph
-    public void dfs(TreeNode node) {
+    public void dfs(TreeNode node, TreeNode parent) {
         if (node == null) return;
 
-        if (!graph.containsKey(node.val)) {
-            graph.put(node.val, new ArrayList<>());
-        }
+        parents.put(node, parent);
 
-        if (node.left != null) {
-            graph.get(node.val).add(node.left.val);
-            if (!graph.containsKey(node.left.val)) {
-                graph.put(node.left.val, new ArrayList<>());
-            }
-            graph.get(node.left.val).add(node.val);
-        }
-
-        if (node.right != null) {
-            graph.get(node.val).add(node.right.val);
-            if (!graph.containsKey(node.right.val)) {
-                graph.put(node.right.val, new ArrayList<>());
-            }
-            graph.get(node.right.val).add(node.val);
-        }
-
-        dfs(node.left);
-        dfs(node.right);
+        dfs(node.left, node);
+        dfs(node.right, node);
     }
 }
